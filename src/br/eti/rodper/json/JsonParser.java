@@ -72,7 +72,7 @@ public class JsonParser {
 			jsonArray.add(parseValue(tokenizer, !jsonArray.isEmpty()));
 		}
 
-		throw new RuntimeException(exceptionMessage("']', or ','",	token));
+		throw new RuntimeException(exceptionMessage("']', or ','", token));
 	}
 
 	private static JsonObject parseObject(JsonTokenizer tokenizer) {

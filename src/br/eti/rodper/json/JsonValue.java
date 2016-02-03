@@ -37,7 +37,7 @@ public class JsonValue {
 		this.value = string;
 	}
 
-	Object getValue() {
+	protected Object getValue() {
 		return value;
 	}
 
