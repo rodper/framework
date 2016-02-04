@@ -1,7 +1,6 @@
 package br.eti.rodper.json;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -46,13 +45,16 @@ public class JsonArray {
 	@Override
 	public String toString() {
 
-		Iterator<JsonValue> it = elements.iterator();
 		StringBuilder values = new StringBuilder();
 
-		while(it.hasNext()) {
-			values.append(it.next()).append((it.hasNext() ? "," : ""));
+		for(JsonValue element : elements) {
+			values.append(element).append(",");
 		}
 
-		return "[" + values.toString() + "]";
+		if(values.length() > 0) {
+			values.deleteCharAt(values.length() - 1);
+		}
+
+		return "[" + values + "]";
 	}
 }

@@ -1,7 +1,6 @@
 package br.eti.rodper.json;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -47,15 +46,17 @@ public class JsonObject {
 	@Override
 	public String toString() {
 
-		Iterator<Entry<String, JsonValue>> it = members.entrySet().iterator();
 		StringBuilder values = new StringBuilder();
 
-		while (it.hasNext()) {
-			Entry<String, JsonValue> entry = it.next();
-			values.append("\""+ entry.getKey() + "\":" + entry.getValue())
-					.append(it.hasNext() ? ", " : "");
+		for(Entry<String, JsonValue> entry : members.entrySet()) {
+			values.append("\"").append(entry.getKey()).append("\":").append(entry.getValue());
+			values.append(",");
 		}
 
-		return "{" + values.toString() + "}";
+		if(values.length() > 0) {
+			values.deleteCharAt(values.length() - 1);
+		}
+
+		return "{" + values + "}";
 	}
 }
