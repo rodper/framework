@@ -65,6 +65,7 @@ public class JsonParser {
 			if ("]".equals(token)) {
 				return jsonArray;
 			}
+			//  a comma when there is at least one element
 			if(!",".equals(token) && !jsonArray.isEmpty()) {
 				break;
 			}
@@ -86,6 +87,7 @@ public class JsonParser {
 			if ("}".equals(token)) {
 				return jsonObject;
 			}
+			//  a comma when there is at least one member
 			if(!",".equals(token) && !jsonObject.isEmpty()) {
 				break;
 			}
@@ -100,12 +102,14 @@ public class JsonParser {
 
 		String token = (ahead) ? tokenizer.nextToken() : tokenizer.currentToken();
 
+		// a string key
 		if (!isString(token)) {
 			throw new RuntimeException(exceptionMessage("\"string\"", token));
 		}
 
 		String name = removeQuotes(token);
 
+		// a colon
 		if (!":".equals(tokenizer.nextToken())) {
 			throw new RuntimeException(exceptionMessage("':'", tokenizer.currentToken()));
 		}
