@@ -11,6 +11,12 @@ import java.util.Locale;
  */
 public class JsonValue {
 
+	private static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.US);
+	{
+		NUMBER_FORMAT.setMaximumFractionDigits(340);
+		NUMBER_FORMAT.setGroupingUsed(false);
+	}
+
 	private Object value;
 
 	public JsonValue() {
@@ -55,11 +61,5 @@ public class JsonValue {
 		}
 
 		return value.toString();
-	}
-
-	private static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.US);
-	{
-		NUMBER_FORMAT.setMaximumFractionDigits(340);
-		NUMBER_FORMAT.setGroupingUsed(false);
 	}
 }

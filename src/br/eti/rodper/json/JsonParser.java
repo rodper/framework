@@ -10,6 +10,11 @@ import java.util.regex.Pattern;
  */
 public class JsonParser {
 
+	private static final String STRING_QUOTE_REGEX = "^\"|\"$";
+	private static final String STRING_ESCAPE_REGEX = Pattern.quote("\\\"");
+	private static final Pattern STRING_PATTERN = Pattern.compile("\".*\"");
+	private static final Pattern NUMBER_PATTERN = Pattern.compile("-?\\d+(\\.\\d+)?");
+
 	public static JsonObject parseObject(String json) {
 		return (JsonObject) parse(json).getValue();
 	}
@@ -122,7 +127,7 @@ public class JsonParser {
 	}
 
 	private static boolean isString(String text) {
-		return (text == null) ? false : text.startsWith("\"") && text.endsWith("\"");
+		return (text == null) ? false : STRING_PATTERN.matcher(text).matches();
 	}
 
 	private static boolean isBoolean(String text) {
@@ -130,11 +135,11 @@ public class JsonParser {
 	}
 
 	private static boolean isNumber(String text) {
-		return (text == null) ? false : text.matches("-?\\d+(\\.\\d+)?");
+		return (text == null) ? false : NUMBER_PATTERN.matcher(text).matches();
 	}
 
 	private static String removeQuotes(String text) {
-		return (text == null) ? null : text.replaceAll("^\"|\"$", "").replaceAll(Pattern.quote("\\\""), "\"");
+		return (text == null) ? null : text.replaceAll(STRING_QUOTE_REGEX, "").replaceAll(STRING_ESCAPE_REGEX, "\"");
 	}
 
 	private static String exceptionMessage(String expectedTokens, String token) {
