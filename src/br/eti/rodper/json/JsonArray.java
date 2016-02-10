@@ -1,6 +1,7 @@
 package br.eti.rodper.json;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  * @author rodper
  *
  */
-public class JsonArray {
+public class JsonArray implements Iterable<JsonValue>{
 
 	private List<JsonValue> elements;
 
@@ -40,6 +41,15 @@ public class JsonArray {
 
 	public boolean isEmpty() {
 		return elements.isEmpty();
+	}
+
+	public int size() {
+		return elements.size();
+	}
+
+	@Override
+	public Iterator<JsonValue> iterator() {
+		return elements.iterator();
 	}
 
 	@Override

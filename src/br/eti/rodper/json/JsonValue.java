@@ -43,8 +43,10 @@ public class JsonValue {
 		this.value = string;
 	}
 
-	protected Object getValue() {
-		return value;
+	@SafeVarargs
+	@SuppressWarnings("unchecked")
+	public final <T> T getValue(Class<T>... type) {
+		return (T) value;
 	}
 
 	@Override

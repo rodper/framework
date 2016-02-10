@@ -1,6 +1,7 @@
 package br.eti.rodper.json;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,7 +11,7 @@ import java.util.Map.Entry;
  * @author rodper
  *
  */
-public class JsonObject {
+public class JsonObject implements Iterable<Entry<String, JsonValue>> {
 
 	private  Map<String, JsonValue> members;
 
@@ -41,6 +42,15 @@ public class JsonObject {
 
 	public boolean isEmpty() {
 		return members.isEmpty();
+	}
+
+	public int size() {
+		return members.size();
+	}
+
+	@Override
+	public Iterator<Entry<String, JsonValue>> iterator() {
+		return members.entrySet().iterator();
 	}
 
 	@Override

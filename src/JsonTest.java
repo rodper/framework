@@ -39,6 +39,7 @@ public class JsonTest {
 					+ "    }"
 					+ "}}";
 
+
 		JsonObject object = JsonParser.parseObject(json);
 		JsonObject widget = object.get("widget");
 
@@ -53,8 +54,10 @@ public class JsonTest {
 		JsonObject text = widget.get("text");
 		System.out.println(text.get("onMouseUp"));
 
-		JsonArray style = text.get("style");
-		System.out.println(style.get(0));
+		JsonArray styles = text.get("style");
+		for(JsonValue style : styles) {
+			System.out.println(style.getValue());
+		}
 
 		// ------------------------------------ //
 		// ------ Building a json object ------ //
