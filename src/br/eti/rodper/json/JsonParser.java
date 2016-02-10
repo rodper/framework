@@ -10,10 +10,10 @@ import java.util.regex.Pattern;
  */
 public class JsonParser {
 
-	private static final String STRING_QUOTE_REGEX = "^\"|\"$";
-	private static final String STRING_ESCAPE_REGEX = Pattern.quote("\\\"");
-	private static final Pattern STRING_PATTERN = Pattern.compile("\".*\"");
 	private static final Pattern NUMBER_PATTERN = Pattern.compile("-?\\d+(\\.\\d+)?");
+	private static final Pattern STRING_PATTERN = Pattern.compile("\".*\"");
+	private static final Pattern STRING_QUOTES_PATTERN = Pattern.compile("^\"|\"$");
+	private static final Pattern STRING_ESCAPE_PATTERN = Pattern.compile(Pattern.quote("\\\""));
 
 	public static JsonObject parseObject(String json) {
 		return (JsonObject) parse(json).getValue();
@@ -56,7 +56,7 @@ public class JsonParser {
 			return new JsonValue(Double.parseDouble(token));
 		}
 
-		throw new RuntimeException(exceptionMessage("\"string\", number, null, true, false, '{' or '['", token));
+		throw new RuntimeException(exceptionMessage("string, number, null, true, false, '{' or '['", token));
 	}
 
 	private static JsonArray parseArray(JsonTokenizer tokenizer) {
@@ -70,8 +70,8 @@ public class JsonParser {
 			if ("]".equals(token)) {
 				return jsonArray;
 			}
-			//  a comma when there is at least one element
-			if(!",".equals(token) && !jsonArray.isEmpty()) {
+			// a comma when there is at least one element
+			if (!",".equals(token) && !jsonArray.isEmpty()) {
 				break;
 			}
 			// an element
@@ -92,8 +92,8 @@ public class JsonParser {
 			if ("}".equals(token)) {
 				return jsonObject;
 			}
-			//  a comma when there is at least one member
-			if(!",".equals(token) && !jsonObject.isEmpty()) {
+			// a comma when there is at least one member
+			if (!",".equals(token) && !jsonObject.isEmpty()) {
 				break;
 			}
 			// a member
@@ -109,7 +109,7 @@ public class JsonParser {
 
 		// a string key
 		if (!isString(token)) {
-			throw new RuntimeException(exceptionMessage("\"string\"", token));
+			throw new RuntimeException(exceptionMessage("string", token));
 		}
 
 		String name = removeQuotes(token);
@@ -123,7 +123,7 @@ public class JsonParser {
 	}
 
 	private static boolean isNull(String text) {
-		return (text == null) || "null".equalsIgnoreCase(text);
+		return "null".equalsIgnoreCase(text);
 	}
 
 	private static boolean isString(String text) {
@@ -139,10 +139,12 @@ public class JsonParser {
 	}
 
 	private static String removeQuotes(String text) {
-		return (text == null) ? null : text.replaceAll(STRING_QUOTE_REGEX, "").replaceAll(STRING_ESCAPE_REGEX, "\"");
+
+		return (text == null) ? null : STRING_ESCAPE_PATTERN.matcher(
+				STRING_QUOTES_PATTERN.matcher(text).replaceAll("")).replaceAll("\"");
 	}
 
 	private static String exceptionMessage(String expectedTokens, String token) {
-		return "Invalid JSON: Expecting " + expectedTokens + ", got '" + token	+ "'";
+		return "Invalid JSON: Expecting " + expectedTokens + ", got '" + token + "'";
 	}
 }
