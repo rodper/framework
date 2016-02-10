@@ -56,17 +56,17 @@ public class JsonObject implements Iterable<Entry<String, JsonValue>> {
 	@Override
 	public String toString() {
 
-		StringBuilder values = new StringBuilder();
+		StringBuilder values = new StringBuilder("{");
 
 		for(Entry<String, JsonValue> entry : members.entrySet()) {
 			values.append("\"").append(entry.getKey()).append("\":").append(entry.getValue());
 			values.append(",");
 		}
 
-		if(values.length() > 0) {
+		if(values.length() > 1) {
 			values.deleteCharAt(values.length() - 1);
 		}
 
-		return "{" + values + "}";
+		return values.append("}").toString();
 	}
 }
