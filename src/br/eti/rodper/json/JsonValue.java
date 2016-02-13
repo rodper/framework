@@ -54,14 +54,12 @@ public class JsonValue {
 
 		if (value == null) {
 			return "null";
-		}
-		if (value instanceof String) {
+		} else if (value instanceof String) {
 			return "\"" + value + "\"";
-		}
-		if (value instanceof Number) {
+		} else if (value instanceof Number) {
 			return NUMBER_FORMAT.format(value);
+		} else {
+			return value.toString();
 		}
-
-		return value.toString();
 	}
 }
