@@ -10,10 +10,10 @@ import java.util.regex.Pattern;
  */
 public class JsonParser {
 
-	private static final Pattern NUMBER_PATTERN = Pattern.compile("-?\\d+(\\.\\d+)?");
 	private static final Pattern STRING_PATTERN = Pattern.compile("\".*\"");
 	private static final Pattern STRING_QUOTES_PATTERN = Pattern.compile("^\"|\"$");
 	private static final Pattern STRING_ESCAPE_PATTERN = Pattern.compile(Pattern.quote("\\\""));
+	private static final Pattern NUMBER_PATTERN = Pattern.compile("-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+-]?\\d+)?");
 
 	public static JsonObject parseObject(String json) {
 		return (JsonObject) parse(json).getValue();
